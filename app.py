@@ -12,8 +12,8 @@ api_key = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=api_key)
 
 # 3. Set up the AI model 
-# (Using gemini-1.5-flash as it is highly stable for direct document reading)
-model = genai.GenerativeModel('gemini-1.5-flash')
+# (Using gemini-2.5-flash as it is highly stable for direct document reading)
+model = genai.GenerativeModel('gemini-2.5-flash')
 
 # 4. Read the PDF directly into memory as raw bytes
 @st.cache_data
