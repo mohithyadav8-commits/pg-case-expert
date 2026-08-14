@@ -9,14 +9,39 @@ st.set_page_config(
     layout="centered"
 )
 
-# 2. Neumorphism Custom Styling (CSS)
+# 2. Advanced Neumorphism Styling (CSS)
 neumorphic_css = """
 <style>
-    /* Background color for the whole app */
+    /* Overall App Background */
     .stApp {
         background-color: #e6ecf5;
         color: #313e52;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Fix the white background bar at the bottom */
+    [data-testid="stBottom"] {
+        background-color: transparent !important;
+    }
+    [data-testid="stBottom"] > div {
+        background-color: transparent !important;
+        background: transparent !important;
+    }
+    
+    /* Neumorphic Chat Input Box */
+    [data-testid="stChatInput"] {
+        background-color: transparent !important;
+        border: none !important;
+    }
+    [data-testid="stChatInput"] > div {
+        background-color: #e6ecf5 !important;
+        border-radius: 25px !important;
+        box-shadow: inset 4px 4px 8px #c5c9d1, inset -4px -4px 8px #ffffff !important;
+        border: none !important;
+        padding: 5px 15px !important;
+    }
+    [data-testid="stChatInput"] textarea {
+        color: #2b3a4a !important;
     }
 
     /* Attribution Header Card */
@@ -26,6 +51,7 @@ neumorphic_css = """
         box-shadow: 6px 6px 12px #c5c9d1, -6px -6px 12px #ffffff;
         padding: 14px 20px;
         text-align: center;
+        margin-top: -30px;
         margin-bottom: 25px;
         border: 1px solid rgba(255, 255, 255, 0.4);
     }
@@ -48,18 +74,21 @@ neumorphic_css = """
         box-shadow: 8px 8px 16px #c5c9d1, -8px -8px 16px #ffffff;
         padding: 24px;
         text-align: center;
-        margin-bottom: 25px;
+        margin-bottom: 35px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
     }
     .header-title {
-        font-size: 2rem;
-        font-weight: 700;
+        font-size: 2.2rem;
+        font-weight: 800;
         color: #1e293b;
         margin: 0;
     }
     .header-subtitle {
-        font-size: 1rem;
-        color: #64748b;
-        margin-top: 8px;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #0369a1; 
+        margin-top: 10px;
+        letter-spacing: 0.5px;
     }
 
     /* Neumorphic Chat Messages */
@@ -71,29 +100,19 @@ neumorphic_css = """
         margin-bottom: 18px !important;
         border: 1px solid rgba(255, 255, 255, 0.5) !important;
     }
-
-    /* Voice / Control Section Card */
-    .controls-card {
-        background: #e6ecf5;
-        border-radius: 16px;
-        box-shadow: inset 4px 4px 8px #c5c9d1, inset -4px -4px 8px #ffffff;
-        padding: 15px;
-        margin-top: 15px;
-        margin-bottom: 15px;
+    
+    /* Mic Section Spacing */
+    .mic-label {
+        text-align: center;
+        font-weight: 700;
+        color: #475569;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
     }
 
-    /* Chat Input Box (Inset Neumorphism) */
-    [data-testid="stChatInput"] input {
-        background-color: #e6ecf5 !important;
-        border-radius: 25px !important;
-        box-shadow: inset 4px 4px 8px #c5c9d1, inset -4px -4px 8px #ffffff !important;
-        border: none !important;
-        color: #2b3a4a !important;
-        padding: 12px 20px !important;
-    }
-
-    /* Streamlit default header/footer cleanup */
+    /* Clean UI */
     #MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
     footer {visibility: hidden;}
 </style>
 """
@@ -102,16 +121,16 @@ st.markdown(neumorphic_css, unsafe_allow_html=True)
 # 3. Attribution Card
 st.markdown("""
 <div class="attribution-card">
-    <p class="attribution-title">Developed by <strong>Mohith Yadav S</strong></p>
+    <p class="attribution-title">Developed by <strong>Mohith Yadav</strong></p>
     <p class="attribution-sub">Under the Guidance of <strong>Dr. Shweta Puneet</strong></p>
 </div>
 """, unsafe_allow_html=True)
 
-# 4. Header Card
+# 4. Header Card with NEW Professional Subtitle
 st.markdown("""
 <div class="header-card">
     <h1 class="header-title">💡 P&G Case Study Expert</h1>
-    <p class="header-subtitle">Interactive AI Consultant for <em>Applying Data Science & Analytics at P&G</em></p>
+    <p class="header-subtitle">Executive Decision-Support: Decoding P&G's Data-Driven Transformation</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -138,14 +157,25 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# 9. Voice & Text Controls
-st.markdown('<div class="controls-card"><b>🎙️ Click below to ask via voice, or use the chat bar below:</b></div>', unsafe_allow_html=True)
+# 9. Voice & Text Controls (Centered and visually dynamic)
+st.markdown('<p class="mic-label">🎙️ Speak Your Question Below:</p>', unsafe_allow_html=True)
 
-col1, col2 = st.columns([1, 3])
-with col1:
-    voice_text = speech_to_text(language='en', use_container_width=True, just_once=True, key='STT')
+# Using columns to perfectly center the mic button
+col1, col2, col3 = st.columns([1, 2, 1])
+with col2:
+    # Dynamic prompts act as our visual highlight when clicked
+    voice_text = speech_to_text(
+        language='en', 
+        use_container_width=True, 
+        just_once=True, 
+        key='STT',
+        start_prompt="🟢 Start Voice Recording",
+        stop_prompt="🔴 🎙️ RECORDING... (Click to Stop)"
+    )
 
-text_input = st.chat_input("Ask a question about the case study...")
+st.write("---")
+
+text_input = st.chat_input("Or type your case study question here...")
 prompt = voice_text if voice_text else text_input
 
 # 10. Generate and Display Response
