@@ -49,7 +49,7 @@ neumorphic_css = """
         background: #e6ecf5;
         border-radius: 15px;
         box-shadow: 6px 6px 12px #c5c9d1, -6px -6px 12px #ffffff;
-        padding: 14px 20px;
+        padding: 18px 20px;
         text-align: center;
         margin-top: -30px;
         margin-bottom: 25px;
@@ -60,11 +60,28 @@ neumorphic_css = """
         font-weight: 600;
         color: #2b3a4a;
         margin: 0;
+        margin-bottom: 8px;
     }
     .attribution-sub {
         font-size: 0.85rem;
         color: #5c6b7d;
-        margin: 3px 0 0 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    /* Highlighted Neumorphic Badge for Professor's Name */
+    .highlight-badge {
+        background: #e6ecf5;
+        color: #0369a1;
+        font-weight: 800;
+        font-size: 0.90rem;
+        padding: 6px 14px;
+        border-radius: 20px;
+        box-shadow: inset 3px 3px 6px #c5c9d1, inset -3px -3px 6px #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.5);
     }
 
     /* Main Title Header Card */
@@ -118,15 +135,17 @@ neumorphic_css = """
 """
 st.markdown(neumorphic_css, unsafe_allow_html=True)
 
-# 3. Attribution Card
+# 3. Attribution Card with Highlighted Name
 st.markdown("""
 <div class="attribution-card">
     <p class="attribution-title">Developed by <strong>Mohith Yadav</strong></p>
-    <p class="attribution-sub">Under the Guidance of <strong>Dr. Shweta Puneet</strong></p>
+    <div class="attribution-sub">
+        Under the Guidance of <span class="highlight-badge">Dr. Shweta Puneet</span>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
-# 4. Header Card with NEW Professional Subtitle
+# 4. Header Card 
 st.markdown("""
 <div class="header-card">
     <h1 class="header-title">💡 P&G Case Study Expert</h1>
@@ -157,13 +176,11 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# 9. Voice & Text Controls (Centered and visually dynamic)
+# 9. Voice & Text Controls
 st.markdown('<p class="mic-label">🎙️ Speak Your Question Below:</p>', unsafe_allow_html=True)
 
-# Using columns to perfectly center the mic button
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    # Dynamic prompts act as our visual highlight when clicked
     voice_text = speech_to_text(
         language='en', 
         use_container_width=True, 
@@ -180,7 +197,6 @@ prompt = voice_text if voice_text else text_input
 
 # 10. Generate and Display Response
 if prompt:
-    # Display user's question
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
