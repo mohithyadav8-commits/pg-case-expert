@@ -26,7 +26,7 @@ def get_pdf_text(filename):
 pdf_text = get_pdf_text("pg_case.pdf")
 
 # 4. Set up the AI model
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-2.5-flash')
 
 # 5. Setup Chat History
 if "messages" not in st.session_state:
