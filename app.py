@@ -216,7 +216,10 @@ if prompt:
             "data": pdf_bytes
         }
         
-        response = model.generate_content([pdf_part, instructions])
-        st.markdown(response.text)
+        # We added 'stream=True' so the AI sends the answer piece by piece
+        response = model.generate_content([pdf_part, instructions], stream=True)
+        
+        # 'st.write_stream' creates the live typewriter effect on your screen!
+        full_text = st.write_stream(chunk.text for chunk in response)
     
-    st.session_state.messages.append({"role": "assistant", "content": response.text})
+    st.session_state.messages.append({"role": "assistant", "content": full_text})
