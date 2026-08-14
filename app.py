@@ -102,7 +102,7 @@ st.markdown(neumorphic_css, unsafe_allow_html=True)
 # 3. Attribution Card
 st.markdown("""
 <div class="attribution-card">
-    <p class="attribution-title">Developed by <strong>Mohith Yadav</strong></p>
+    <p class="attribution-title">Developed by <strong>Mohith Yadav S</strong></p>
     <p class="attribution-sub">Under the Guidance of <strong>Dr. Shweta Puneet</strong></p>
 </div>
 """, unsafe_allow_html=True)
